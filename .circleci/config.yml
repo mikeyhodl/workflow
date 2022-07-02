@@ -15,8 +15,18 @@ jobs:
           name: install dependencies
           command: pip install -r requirements.txt
 
-# Invoke jobs via workflows
-# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
+          name: commit files
+          command: git config --local user.email "mike@mikeowino.com"
+                   git config --local user.name "mikeyhodl"
+                   git add -A
+                   git commit -m "update data" -a
+
+          name: push changes
+          uses: ad-m/github-push-action@v0.6.0
+          with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            branch: main
+
 workflows:
   build-and-test-workflow:
     jobs:
